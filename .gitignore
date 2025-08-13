@@ -1,0 +1,33 @@
+# ---- Windows OS 파일 ----
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ---- Python 캐시/빌드 파일 ----
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ---- 가상환경 ----
+venv/
+env/
+.venv/
+.env/
+
+# ---- 빌드 결과물 ----
+build/
+dist/
+*.egg-info/
+*.egg
+
+# ---- 로그/임시 파일 ----
+*.log
+*.tmp
+*.temp
+
+# ---- Jupyter Notebook 체크포인트 ----
+.ipynb_checkpoints
+
+# ---- IDE/에디터 설정 ----
+.vscode/
+.idea/
