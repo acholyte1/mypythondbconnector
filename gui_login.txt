@@ -1,0 +1,190 @@
+import tkinter as tk
+import json
+import os
+import sys
+from tkinter import messagebox, ttk  # 메시지 박스 (경고/에러 등 창), 테마 위젯 모듈
+from db_connector import get_connection
+from select_gui import launch_select_gui
+from insert_gui import launch_insert_gui
+from update_gui import launch_update_gui
+from delete_gui import launch_delete_gui
+from encryption_util import encrypt_password, decrypt_password
+from permissions import load_session_permissions
+
+def resource_path(relative_path):
+    print("resource_path")
+    """PyInstaller 실행 or IDE 실행 모두에서 작동하는 경로 계산"""
+    if getattr(sys, 'frozen', False):
+        base_path = os.path.dirname(sys.executable)
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
+
+def save_login_info(host, user, password, database):
+    print("save_login_info")
+    path = resource_path("login_config.json")
+    with open(path, "w") as f:
+        json.dump({
+            "host": host,
+            "user": user, 
+            "password": encrypt_password(password),  # 🔐 암호화 저장,
+            "database": database
+        }, f)
+
+def load_login_info():
+    print("load_login_info")
+    try:
+        path = resource_path("login_config.json")
+        with open(path, "r") as f:
+            data = json.load(f)
+            if "password" in data:
+                data["password"] = decrypt_password(data["password"])  # 🔓 복호화
+            return data
+    except FileNotFoundError:
+        return {}
+    except Exception as e:
+        print("⚠ 로그인 정보 불러오기 실패:", e)
+        return {}
+        
+
+def launch_login_gui():
+    print("launch_login_gui")
+    root = tk.Tk()
+    root.title("DB 로그인")
+
+    # 기존 정보 불러오기
+    saved_info = load_login_info()
+    
+    # DBMS 선택
+    tk.Label(root, text="DBMS").pack()
+    db_type_var = tk.StringVar(value="mysql")
+    combo = ttk.Combobox(root, textvariable=db_type_var, state="readonly")
+    combo['values'] = ["mysql", "postgres", "oracle", "sqlite"]
+    combo.pack()
+
+    # 위젯: host, port, user, password, database 입력 필드
+    tk.Label(root, text="Host").pack()
+    entry_host = tk.Entry(root)
+    entry_host.pack()
+    entry_host.insert(0, saved_info.get("host", ""))
+    
+    tk.Label(root, text="Port").pack()
+    entry_port = tk.Entry(root)
+    entry_port.pack()
+    entry_port.insert(0, saved_info.get("port", ""))
+
+    tk.Label(root, text="User").pack()
+    entry_user = tk.Entry(root)
+    entry_user.pack()
+    entry_user.insert(0, saved_info.get("user", ""))    
+
+    tk.Label(root, text="Password").pack()
+    entry_password = tk.Entry(root, show="*")
+    entry_password.pack()
+    entry_password.insert(0, saved_info.get("password", ""))
+
+    tk.Label(root, text="Database").pack()
+    entry_db = tk.Entry(root)
+    entry_db.pack()
+    entry_db.insert(0, saved_info.get("database", ""))
+    
+    remember_var = tk.BooleanVar(value=True if saved_info else False)
+    check_remember = tk.Checkbutton(root, text="로그인 정보 기억하기", variable=remember_var)
+    check_remember.pack()
+    
+    def on_connect():
+        print("on_connect")
+        host = entry_host.get().strip()
+        user = entry_user.get().strip()
+        password = entry_password.get().strip()
+        database = entry_db.get().strip()
+
+        if not (host and user and password and database):
+            messagebox.showwarning("입력 오류", "모든 항목을 입력하세요.")
+            return
+            
+        # 연결 시도
+        conn, error = get_connection(host, user, password, database)
+        # 권한 확인
+        load_session_permissions(conn)
+        
+        if error:
+            messagebox.showerror("DB 연결 실패", error)
+        else: 
+            if remember_var.get():
+                new_info = {
+                    "host": host,
+                    "user": user, 
+                    "password": password,
+                    "database": database
+                }
+                if new_info != saved_info:
+                    save_login_info(host, user, password, database)
+            else:
+                if os.path.exists("login_config.json"):
+                    os.remove("login_config.json")
+            
+            root.destroy()  # 로그인 창은 닫고
+
+            app = tk.Tk()
+            app.title("DB 툴")
+            # app.update_idletasks()
+            screen_width = app.winfo_screenwidth() # 화면 해상도 가로
+            screen_height = app.winfo_screenheight() # 화면 해상도 세로
+            taskbar_height = 80 # 작업표시줄 크기 추정
+            app.geometry(f"{screen_width}x{screen_height - taskbar_height}+0+0") # 전체 화면 실행
+
+            notebook = ttk.Notebook(app)
+            notebook.pack(fill="both", expand=True)
+            
+            # 컬럼 상태 딕셔너리
+            state = {
+                "entry_columns": [], # 입력창에 보여줄 컬럼
+                "full_columns": [], # 테이블 전체 컬럼
+                "entry_vars": {}, # 입력 가능한 컬럼값 
+                "full_vars": {}, # 전체 컬럼값
+                "primary_key": None, # 상세 조회를 위한 기본키
+                "is_view": False, # 뷰 테이블 여부
+            }
+
+            # 탭 프레임 생성
+            frame_select = ttk.Frame(notebook)
+            frame_insert = ttk.Frame(notebook)
+            frame_update = ttk.Frame(notebook)
+            frame_delete = ttk.Frame(notebook)
+
+            notebook.add(frame_select, text="조회")
+            notebook.add(frame_insert, text="입력")
+            notebook.add(frame_update, text="수정")
+            notebook.add(frame_delete, text="삭제")
+
+            # 기존 GUI 로직을 탭에 집어넣음
+            launch_select_gui(conn, frame_select, state)
+            launch_insert_gui(conn, frame_insert, state)
+            launch_update_gui(conn, frame_update, state)
+            launch_delete_gui(conn, frame_delete, state)
+
+            app.protocol("WM_DELETE_WINDOW", lambda: on_quit(conn, app))
+
+            app.mainloop()
+
+    tk.Button(root, text="접속", command=on_connect).pack(pady=10)
+
+    try:
+        root.mainloop()
+        return "cancel"
+    except Exception as e:
+        print("❌ GUI 실행 중 에러 : ", e)
+        return "error"
+
+def on_quit(conn, app):
+    print("on_quit")
+    if not messagebox.askokcancel("종료 확인", "정말 종료하시겠습니까?"):
+        return  # 사용자가 취소 누르면 아무 것도 안 하고 리턴
+        
+    try:
+        conn.close()
+        print("🔌 DB 연결 종료됨")
+    except:
+        pass
+    app.destroy()

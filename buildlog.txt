@@ -1,0 +1,68 @@
+552 INFO: PyInstaller: 6.15.0, contrib hooks: 2025.8
+553 INFO: Python: 3.11.8
+582 INFO: Platform: Windows-10-10.0.26100-SP0
+582 INFO: Python environment: C:\Users\smhan\Desktop\Python\venv
+585 INFO: wrote C:\Users\smhan\Desktop\Python\main.spec
+596 INFO: Module search paths (PYTHONPATH):
+['C:\\Users\\smhan\\Desktop\\Python\\venv\\Scripts\\pyinstaller.exe',
+ 'C:\\Users\\smhan\\AppData\\Local\\Programs\\Python\\Python311\\python311.zip',
+ 'C:\\Users\\smhan\\AppData\\Local\\Programs\\Python\\Python311\\DLLs',
+ 'C:\\Users\\smhan\\AppData\\Local\\Programs\\Python\\Python311\\Lib',
+ 'C:\\Users\\smhan\\AppData\\Local\\Programs\\Python\\Python311',
+ 'C:\\Users\\smhan\\Desktop\\Python\\venv',
+ 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages',
+ 'C:\\Users\\smhan\\Desktop\\Python']
+1245 INFO: checking Analysis
+1245 INFO: Building Analysis because Analysis-00.toc is non existent
+1245 INFO: Running Analysis Analysis-00.toc
+1245 INFO: Target bytecode optimization level: 0
+1246 INFO: Initializing module dependency graph...
+1250 INFO: Initializing module graph hook caches...
+1279 INFO: Analyzing modules for base_library.zip ...
+3140 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4272 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+5197 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9520 INFO: Caching module dependency graph...
+9603 INFO: Looking for Python shared library...
+9637 INFO: Using Python shared library: C:\Users\smhan\AppData\Local\Programs\Python\Python311\python311.dll
+9637 INFO: Analyzing C:\Users\smhan\Desktop\Python\main.py
+9649 INFO: Processing pre-find-module-path hook 'hook-tkinter.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+9651 INFO: TclTkInfo: initializing cached Tcl/Tk info...
+10536 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+11248 INFO: Processing standard module hook 'hook-platform.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+11753 INFO: Processing standard module hook 'hook-cryptography.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+13759 INFO: hook-cryptography: cryptography does not seem to be using dynamically linked OpenSSL.
+13865 INFO: Processing module hooks (post-graph stage)...
+13963 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+13976 INFO: Performing binary vs. data reclassification (931 entries)
+18703 INFO: Looking for ctypes DLLs
+18715 INFO: Analyzing run-time hooks ...
+18716 INFO: Including run-time hook 'pyi_rth_cryptography_openssl.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\rthooks'
+18718 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+18722 INFO: Including run-time hook 'pyi_rth__tkinter.py' from 'C:\\Users\\smhan\\Desktop\\Python\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+18765 INFO: Creating base_library.zip...
+18851 INFO: Looking for dynamic libraries
+19277 INFO: Extra DLL search directories (AddDllDirectory): []
+19278 INFO: Extra DLL search directories (PATH): []
+20696 INFO: Warnings written to C:\Users\smhan\Desktop\Python\build\main\warn-main.txt
+20733 INFO: Graph cross-reference written to C:\Users\smhan\Desktop\Python\build\main\xref-main.html
+20813 INFO: checking PYZ
+20814 INFO: Building PYZ because PYZ-00.toc is non existent
+20814 INFO: Building PYZ (ZlibArchive) C:\Users\smhan\Desktop\Python\build\main\PYZ-00.pyz
+21330 INFO: Building PYZ (ZlibArchive) C:\Users\smhan\Desktop\Python\build\main\PYZ-00.pyz completed successfully.
+21401 INFO: checking PKG
+21402 INFO: Building PKG because PKG-00.toc is non existent
+21402 INFO: Building PKG (CArchive) main.pkg
+29617 INFO: Building PKG (CArchive) main.pkg completed successfully.
+29647 INFO: Bootloader C:\Users\smhan\Desktop\Python\venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+29648 INFO: checking EXE
+29648 INFO: Building EXE because EXE-00.toc is non existent
+29648 INFO: Building EXE from EXE-00.toc
+29649 INFO: Copying bootloader EXE to C:\Users\smhan\Desktop\Python\dist\main.exe
+29723 INFO: Copying icon to EXE
+29759 INFO: Copying 0 resources to EXE
+29759 INFO: Embedding manifest in EXE
+29799 INFO: Appending PKG archive to EXE
+29830 INFO: Fixing EXE headers
+30104 INFO: Building EXE from EXE-00.toc completed successfully.
+30134 INFO: Build complete! The results are available in: C:\Users\smhan\Desktop\Python\dist
