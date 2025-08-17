@@ -173,16 +173,14 @@ def run_custom_select(conn, table_name: str, select_fields: str, where_clause: s
         }, None
 
     except Exception as e:
-        # 에러 발생해도 연결 닫기
-        try:
-            cursor.close()
-        except:
-            pass
-        try:
-            conn.close()
-        except:
-            pass
+        # ❌ conn.close() 하지 말자 (다음 호출이 터짐)
         return None, str(e)
+    finally:
+        try:
+            if cursor is not None:
+                cursor.close()
+        except:
+            pass
 
 # 기본키 가져오기
 def get_primary_key(conn, table):
