@@ -31,3 +31,7 @@ dist/
 # ---- IDE/에디터 설정 ----
 .vscode/
 .idea/
+
+# ---- 실행 부산물 ----
+login_config.json
+*.txt
