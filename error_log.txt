@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "C:\Users\smhan\Desktop\Python\db_connector.py", line 17, in get_connection
-    port=int(port.strip()), # Æ÷Æ® : 13306
-         ^^^^^^^^^^^^^^^^^
-ValueError: invalid literal for int() with base 10: 'stgrds.gschargev.co.kr'
